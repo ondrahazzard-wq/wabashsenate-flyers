@@ -36,11 +36,11 @@
   .point .top { color: var(--muted); }
   .point .num { position: absolute; left: 66px; top: 150px; font-family: "Inter Display", "Inter", sans-serif; font-weight: 900;
                 font-size: 260px; line-height: 1; letter-spacing: -.05em; color: var(--scarlet); }
-  .point .content { position: absolute; left: 72px; right: 72px; top: 470px; }
-  .point .label { display: inline-block; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 22px;
-                  letter-spacing: .12em; text-transform: uppercase; padding: 8px 14px 7px; }
-  .point h2 { margin-top: 30px; font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 76px; line-height: 1.0;
-              letter-spacing: -.025em; padding-bottom: 36px; border-bottom: 3px solid var(--ink); }
+  .point .content { position: absolute; left: 72px; right: 72px; top: 500px; }
+  .point .label { display: inline-block; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 28px;
+                  letter-spacing: .12em; text-transform: uppercase; padding: 10px 18px 9px; }
+  .point h2 { margin-top: 36px; font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 112px; line-height: .98;
+              letter-spacing: -.035em; padding-bottom: 44px; border-bottom: 4px solid var(--ink); }
   .point p { margin-top: 36px; font-weight: 500; font-size: 36px; line-height: 1.38; color: #2A2622; }
   .point .handle { color: var(--scarlet); }
   .point .hint { color: var(--muted); }
@@ -77,7 +77,6 @@
       <div class="content">
         <span class="label">${esc(s.label)}</span>
         <h2>${esc(s.title)}</h2>
-        <p>${esc(s.body)}</p>
       </div>
       <div class="foot"><span class="handle">@wabashsenate</span><span class="hint">${esc(s.date)}</span></div>`;
   } else {
