@@ -51,6 +51,11 @@ def main(src, out):
             pg.goto(TEMPLATE)
             f = out / f"flyer-{i}.png"
             pg.screenshot(path=str(f), full_page=False)
+            # flat-colour design: palette PNG keeps it sharp at ~1/3 the size
+            from PIL import Image
+            Image.open(f).convert("RGB").quantize(
+                colors=48, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE
+            ).save(f, optimize=True)
             files.append(str(f)); ctx.close()
         browser.close()
     print("\n".join(files))
