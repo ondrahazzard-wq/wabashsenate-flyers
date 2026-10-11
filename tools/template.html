@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --scarlet: #B4122B;
+    --scarlet-deep: #8A0C1F;
+    --ink: #141414;
+    --paper: #F6F1E8;
+    --muted: #6E655A;
+    --rule: #D9CFBF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; }
+  body {
+    background: var(--paper);
+    font-family: "Inter", sans-serif;
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .band {
+    background: var(--scarlet);
+    color: var(--paper);
+    padding: 56px 72px 44px;
+    position: relative;
+  }
+  .kicker {
+    font-family: "Inter Display", "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    display: flex;
+    justify-content: space-between;
+  }
+  .title {
+    font-family: "Inter Display", "Inter", sans-serif;
+    font-weight: 900;
+    font-size: 118px;
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    margin-top: 26px;
+    text-transform: uppercase;
+  }
+  .dates {
+    font-family: "Inter Display", "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 34px;
+    margin-top: 22px;
+    letter-spacing: 0.01em;
+  }
+  .notice {
+    margin: 30px 72px 0;
+    padding: 18px 24px;
+    border: 3px solid var(--ink);
+    font-weight: 700;
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: inline-block;
+  }
+  .days { padding: 28px 72px 0; }
+  .day {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    border-top: 3px solid var(--ink);
+    padding: 20px 0 18px;
+  }
+  .day:last-child { border-bottom: 3px solid var(--ink); }
+  .dname {
+    font-family: "Inter Display", "Inter", sans-serif;
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .dnum {
+    font-family: "Inter Display", "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .ev { display: grid; grid-template-columns: 150px 1fr; align-items: baseline; padding: 6px 0; }
+  .ev + .ev { margin-top: 6px; }
+  .time {
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--scarlet);
+    font-variant-numeric: tabular-nums;
+  }
+  .what { font-weight: 700; font-size: 31px; line-height: 1.15; letter-spacing: -0.01em; }
+  .where { font-weight: 500; font-size: 22px; color: var(--muted); margin-top: 3px; }
+  .tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 9px 3px;
+    margin-left: 10px;
+    vertical-align: 5px;
+  }
+  .foot {
+    position: absolute;
+    left: 72px; right: 72px; bottom: 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--muted);
+  }
+  .handle { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 34px; color: var(--scarlet); letter-spacing: -0.01em; }
+  .page { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <div class="kicker"><span>Wabash Student Senate</span><span id="pageTop"></span></div>
+    <div class="title" id="title">This Week<br>at Wabash</div>
+    <div class="dates" id="dates"></div>
+  </div>
+  <div id="notice"></div>
+  <div class="days" id="days"></div>
+  <div class="foot">
+    <span class="handle">@wabashsenate</span>
+    <span id="footnote">Full calendar: wabash.edu/calendar</span>
+  </div>
+<script>
+  const data = window.__FLYER__;
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  document.getElementById("dates").textContent = data.dates;
+  if (data.pageLabel) document.getElementById("pageTop").textContent = data.pageLabel;
+  if (data.title) document.getElementById("title").innerHTML = esc(data.title).replace(/\n/g, "<br>");
+  if (data.notice) document.getElementById("notice").innerHTML = `<div class="notice">${esc(data.notice)}</div>`;
+  document.getElementById("days").innerHTML = data.days.map(d => `
+    <div class="day">
+      <div><div class="dname">${esc(d.day)}</div><div class="dnum">${esc(d.date)}</div></div>
+      <div>${d.events.map(e => `
+        <div class="ev">
+          <div class="time">${esc(e.time || "All day")}</div>
+          <div>
+            <div class="what">${esc(e.title)}${e.tag ? `<span class="tag">${esc(e.tag)}</span>` : ""}</div>
+            ${e.where ? `<div class="where">${esc(e.where)}</div>` : ""}
+          </div>
+        </div>`).join("")}
+      </div>
+    </div>`).join("");
+</script>
+</body>
+</html>
