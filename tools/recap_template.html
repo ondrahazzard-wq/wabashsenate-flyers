@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --scarlet: #B4122B;
+    --ink: #141414;
+    --paper: #F6F1E8;
+    --muted: #6E655A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; }
+  body { font-family: "Inter", sans-serif; overflow: hidden; position: relative; }
+  .disp { font-family: "Inter Display", "Inter", sans-serif; }
+
+  /* shared chrome */
+  .top { position: absolute; left: 72px; right: 72px; top: 64px; display: flex; justify-content: space-between;
+         font-family: "Inter Display", "Inter", sans-serif; font-weight: 600; font-size: 26px; letter-spacing: .22em; text-transform: uppercase; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 56px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .handle { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 34px; letter-spacing: -.01em; }
+  .hint { font-weight: 600; font-size: 24px; }
+
+  /* cover */
+  body.cover { background: var(--scarlet); color: var(--paper); }
+  .cover .top { opacity: .85; }
+  .cover .big { position: absolute; left: 72px; right: 72px; top: 300px; }
+  .cover h1 { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 196px; line-height: .86;
+              letter-spacing: -.04em; text-transform: uppercase; }
+  .cover .date { margin-top: 40px; font-weight: 500; font-size: 40px; font-family: "Inter Display", "Inter", sans-serif; }
+  .cover .sub { margin-top: 56px; padding-top: 32px; border-top: 3px solid var(--paper); font-weight: 600; font-size: 36px; line-height: 1.3; max-width: 820px; }
+  .cover .handle { color: var(--paper); }
+
+  /* takeaway */
+  body.point { background: var(--paper); color: var(--ink); }
+  .point .top { color: var(--muted); }
+  .point .num { position: absolute; left: 66px; top: 150px; font-family: "Inter Display", "Inter", sans-serif; font-weight: 900;
+                font-size: 260px; line-height: 1; letter-spacing: -.05em; color: var(--scarlet); }
+  .point .content { position: absolute; left: 72px; right: 72px; top: 470px; }
+  .point .label { display: inline-block; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 22px;
+                  letter-spacing: .12em; text-transform: uppercase; padding: 8px 14px 7px; }
+  .point h2 { margin-top: 30px; font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 76px; line-height: 1.0;
+              letter-spacing: -.025em; padding-bottom: 36px; border-bottom: 3px solid var(--ink); }
+  .point p { margin-top: 36px; font-weight: 500; font-size: 36px; line-height: 1.38; color: #2A2622; }
+  .point .handle { color: var(--scarlet); }
+  .point .hint { color: var(--muted); }
+
+  /* closing */
+  body.close { background: var(--ink); color: var(--paper); }
+  .close .top { color: #9C948A; }
+  .close .msg { position: absolute; left: 72px; right: 72px; top: 330px; }
+  .close h2 { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; font-size: 104px; line-height: .95; letter-spacing: -.035em; }
+  .close h2 em { font-style: normal; color: var(--scarlet); }
+  .close p { margin-top: 48px; font-weight: 500; font-size: 38px; line-height: 1.38; color: #D8D1C6; max-width: 860px; }
+  .close .handle { color: var(--paper); }
+  .close .hint { color: #9C948A; }
+</style>
+</head>
+<body>
+<script>
+  const s = window.__SLIDE__;
+  const esc = v => String(v ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  document.body.className = s.kind;
+  const head = `<div class="top"><span>Wabash Student Senate</span><span>${esc(s.page)}</span></div>`;
+  let html = "";
+  if (s.kind === "cover") {
+    html = `${head}
+      <div class="big">
+        <h1>Senate<br>Recap</h1>
+        <div class="date">${esc(s.date)}</div>
+        <div class="sub">${esc(s.subtitle)}</div>
+      </div>
+      <div class="foot"><span class="handle">@wabashsenate</span><span class="hint">Swipe for the key takeaways →</span></div>`;
+  } else if (s.kind === "point") {
+    html = `${head}
+      <div class="num">${esc(s.num)}</div>
+      <div class="content">
+        <span class="label">${esc(s.label)}</span>
+        <h2>${esc(s.title)}</h2>
+        <p>${esc(s.body)}</p>
+      </div>
+      <div class="foot"><span class="handle">@wabashsenate</span><span class="hint">${esc(s.date)}</span></div>`;
+  } else {
+    html = `${head}
+      <div class="msg">
+        <h2>${esc(s.headline || "Your voice,\nyour Senate.").replace(/\n/g,"<br>").replace(/Senate\./, "<em>Senate.</em>")}</h2>
+        <p>${esc(s.body)}</p>
+      </div>
+      <div class="foot"><span class="handle">@wabashsenate</span><span class="hint">${esc(s.date)}</span></div>`;
+  }
+  document.body.innerHTML = html;
+</script>
+</body>
+</html>
