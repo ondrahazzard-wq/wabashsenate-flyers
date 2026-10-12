@@ -1,0 +1,12 @@
+{
+  "range": "Week of October 5 – 11, 2026",
+  "results": [
+    {"sport": "Golf", "date": "Mon–Tue, Oct 5–6", "opponent": "Wabash College Invitational", "site": "Host", "place": "12th", "of": "of 16 teams"},
+    {"sport": "Soccer", "date": "Wed, Oct 7", "prefix": "at", "opponent": "Ohio Wesleyan", "site": "Away", "outcome": "L", "score": "0–1"},
+    {"sport": "Soccer", "date": "Sat, Oct 10", "prefix": "vs.", "opponent": "Kenyon", "site": "Home", "outcome": "L", "score": "0–3"}
+  ],
+  "records": [
+    {"sport": "Football", "record": "4–1", "detail": "3–1 NCAC · bye week"},
+    {"sport": "Soccer", "record": "10–4–1", "detail": "1–2 NCAC"}
+  ]
+}

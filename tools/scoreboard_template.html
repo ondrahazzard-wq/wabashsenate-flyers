@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Monday scoreboard. Same build as the Sunday flyer, told apart by the black header band
+     (the flyer's band is scarlet) and scarlet season-record cards. */
+  :root {
+    --scarlet: #B4122B;
+    --ink: #141414;
+    --paper: #F6F1E8;
+    --muted: #6E655A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; }
+  body {
+    background: var(--paper);
+    font-family: "Inter", sans-serif;
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .display { font-family: "Inter Display", "Inter", sans-serif; }
+
+  /* ---------- header band ---------- */
+  .band {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 56px 72px 46px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 12px solid var(--scarlet);
+  }
+  .kicker {
+    font-weight: 600; font-size: 26px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.8;
+    display: flex; justify-content: space-between;
+  }
+  .title {
+    font-weight: 900; font-size: 134px; line-height: 0.86; letter-spacing: -0.04em;
+    margin-top: 26px; text-transform: uppercase;
+  }
+  .range { font-weight: 500; font-size: 34px; margin-top: 22px; opacity: .9; }
+
+  /* ---------- results ---------- */
+  .results { padding: 34px 72px 0; }
+  .label {
+    font-weight: 700; font-size: 22px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .row {
+    display: grid; grid-template-columns: 250px 1fr auto; align-items: center; column-gap: 28px;
+    border-top: 3px solid var(--ink); padding: 26px 0 24px;
+  }
+  .rows .row:last-child { border-bottom: 3px solid var(--ink); }
+  .sport { font-weight: 900; font-size: 40px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+  .date { font-weight: 500; font-size: 24px; color: var(--muted); margin-top: 8px; }
+  .opp { font-weight: 700; font-size: 36px; line-height: 1.12; letter-spacing: -0.012em; }
+  .opp .pre { font-weight: 500; color: var(--muted); }
+  .site {
+    display: inline-block; margin-top: 10px;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--ink); color: var(--paper); padding: 4px 9px 3px;
+  }
+  .site.home { background: var(--scarlet); }
+  .res { display: flex; align-items: center; gap: 16px; justify-self: end; }
+  .wl {
+    width: 62px; height: 62px; display: grid; place-items: center;
+    font-weight: 900; font-size: 36px; color: var(--paper); background: var(--ink);
+  }
+  .wl.W { background: var(--scarlet); }
+  .wl.T { background: var(--muted); }
+  .score { font-weight: 900; font-size: 74px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .place { text-align: right; }
+  .place .big { font-weight: 900; font-size: 74px; line-height: 1; letter-spacing: -0.03em; }
+  .place .of { font-weight: 600; font-size: 22px; color: var(--muted); margin-top: 4px; }
+
+  /* compact mode for busy weeks */
+  body.compact .row { padding: 18px 0 16px; }
+  body.compact .sport { font-size: 34px; }
+  body.compact .opp { font-size: 31px; }
+  body.compact .score, body.compact .place .big { font-size: 60px; }
+  body.compact .wl { width: 52px; height: 52px; font-size: 30px; }
+
+  /* ---------- season records ---------- */
+  .records { padding: 34px 72px 0; }
+  .recs { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 18px; }
+  .rec { background: var(--scarlet); color: var(--paper); padding: 22px 26px 20px; }
+  .rec .s { font-weight: 700; font-size: 20px; letter-spacing: 0.18em; text-transform: uppercase; opacity: .8; }
+  .rec .r { font-weight: 900; font-size: 58px; line-height: 1; letter-spacing: -0.03em; margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .rec .c { font-weight: 600; font-size: 22px; margin-top: 8px; opacity: .85; }
+
+  /* breathing room around the dash in scores and records: 0 – 1, 10 – 4 – 1 */
+  .dash { margin: 0 0.14em; }
+
+  .note { margin: 26px 72px 0; font-weight: 600; font-size: 24px; color: var(--muted); }
+
+  .foot {
+    position: absolute; left: 72px; right: 72px; bottom: 52px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-weight: 600; font-size: 24px; color: var(--muted);
+  }
+  .handle { font-weight: 900; font-size: 34px; color: var(--ink); letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <div class="kicker display"><span>Wabash Student Senate</span><span id="pageTop">Athletics</span></div>
+    <div class="title display" id="title">The<br>Scoreboard</div>
+    <div class="range display" id="range"></div>
+  </div>
+
+  <div class="results" id="resultsWrap">
+    <div class="label" id="resultsLabel">Results</div>
+    <div class="rows" id="rows"></div>
+  </div>
+
+  <div class="records" id="recordsWrap">
+    <div class="label">Season records</div>
+    <div class="recs" id="recs"></div>
+  </div>
+
+  <div id="note"></div>
+
+  <div class="foot">
+    <span class="handle display">@wabashsenate</span>
+    <span>Full results: sports.wabash.edu</span>
+  </div>
+<script>
+  const d = window.__SCORE__;
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  // number-dash-number (scores, records): spaced en dash
+  const nums = s => esc(s).replace(/(\d)\s*[–-]\s*(?=\d)/g, '$1<span class="dash">–</span>');
+  if (d.compact) document.body.classList.add("compact");
+  document.getElementById("range").textContent = d.range;
+  if (d.pageLabel) document.getElementById("pageTop").textContent = d.pageLabel;
+  if (d.title) document.getElementById("title").innerHTML = esc(d.title).replace(/\n/g, "<br>");
+  if (d.resultsLabel !== undefined) document.getElementById("resultsLabel").textContent = d.resultsLabel;
+
+  document.getElementById("rows").innerHTML = (d.results || []).map(r => {
+    const site = r.site ? `<div><span class="site ${esc(r.site).toLowerCase()}">${esc(r.site)}</span></div>` : "";
+    const res = r.place
+      ? `<div class="place"><div class="big">${esc(r.place)}</div>${r.of ? `<div class="of">${esc(r.of)}</div>` : ""}</div>`
+      : `<div class="res">${r.outcome ? `<div class="wl ${esc(r.outcome)}">${esc(r.outcome)}</div>` : ""}<div class="score">${nums(r.score || "")}</div></div>`;
+    return `<div class="row">
+      <div><div class="sport display">${esc(r.sport)}</div><div class="date">${esc(r.date)}</div></div>
+      <div><div class="opp">${r.prefix ? `<span class="pre">${esc(r.prefix)} </span>` : ""}${esc(r.opponent)}</div>${site}</div>
+      ${res}
+    </div>`;
+  }).join("");
+
+  const recs = d.records || [];
+  if (!recs.length) document.getElementById("recordsWrap").style.display = "none";
+  document.getElementById("recs").style.setProperty("--cols", Math.min(Math.max(recs.length, 1), 3));
+  document.getElementById("recs").innerHTML = recs.map(r => `
+    <div class="rec"><div class="s">${esc(r.sport)}</div><div class="r display">${nums(r.record)}</div>${r.detail ? `<div class="c">${nums(r.detail)}</div>` : ""}</div>`).join("");
+
+  if (d.note) document.getElementById("note").innerHTML = `<div class="note">${esc(d.note)}</div>`;
+</script>
+</body>
+</html>
