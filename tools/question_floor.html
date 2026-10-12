@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --scarlet: #B8101F;
+    --scarlet-deep: #7E0A14;
+    --cream: #F6EFE3;
+    --ink: #1A0B0C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(1200px 900px at 85% 8%, #D11A2A 0%, rgba(209,26,42,0) 60%),
+      radial-gradient(1100px 1000px at 0% 100%, var(--scarlet-deep) 0%, rgba(126,10,20,0) 65%),
+      var(--scarlet);
+    font-family: "Inter Display", "Inter", sans-serif;
+    color: var(--cream);
+    position: relative;
+  }
+  .grain { position: absolute; inset: 0; opacity: .16; mix-blend-mode: overlay; pointer-events: none; }
+  .bg-mark {
+    position: absolute; right: -150px; top: 430px;
+    font-family: "Lora", serif; font-weight: 700;
+    font-size: 1400px; line-height: 1;
+    color: rgba(255,255,255,0.055);
+  }
+  .wrap { position: absolute; left: 80px; right: 80px; top: 0; bottom: 0; }
+
+  .kicker {
+    position: absolute; top: 150px; left: 0; right: 0;
+    display: flex; align-items: center; gap: 22px;
+    font-weight: 600; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(246,239,227,0.82);
+  }
+  .kicker .rule { flex: 1; height: 2px; background: rgba(246,239,227,0.45); }
+  .kicker .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--cream); }
+
+  h1 {
+    position: absolute; top: 232px; left: -8px;
+    font-weight: 900; font-size: 246px; line-height: 0.85; letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+  h1 .last { color: var(--ink); position: relative; display: inline-block; }
+  h1 .last::after {
+    content: ""; position: absolute; left: 8px; right: 12px; bottom: -12px; height: 18px;
+    background: var(--cream);
+  }
+
+  .sub {
+    position: absolute; top: 1150px; left: 0; width: 900px;
+    font-weight: 500; font-size: 58px; line-height: 1.14; letter-spacing: -0.014em;
+  }
+  .sub b { font-weight: 800; }
+
+  .ideas {
+    position: absolute; top: 1330px; left: 0; width: 940px;
+    font-weight: 500; font-size: 38px; line-height: 1.25; letter-spacing: -0.01em;
+    color: rgba(246,239,227,0.62);
+  }
+  .cue {
+    position: absolute; top: 1462px; left: 0; right: 0;
+    border-top: 3px solid var(--cream); padding-top: 38px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    font-weight: 900; font-size: 96px; line-height: 0.95; letter-spacing: -0.035em; text-transform: uppercase;
+  }
+  .cue svg { width: 120px; height: 120px; flex: none; margin-bottom: -6px; }
+
+  .foot {
+    position: absolute; top: 1772px; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-weight: 600; font-size: 30px; letter-spacing: 0.04em; color: rgba(246,239,227,0.8);
+  }
+  .foot .tag { letter-spacing: 0.18em; text-transform: uppercase; font-size: 26px; }
+</style>
+</head>
+<body>
+  <svg class="grain" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+  <div class="bg-mark">§</div>
+
+  <div class="wrap">
+    <div class="kicker"><span class="dot"></span>Student Senate<span class="rule"></span>Open floor</div>
+
+    <h1>You<br>have<br>the<br><span class="last">floor.</span></h1>
+
+    <p class="sub">What should Senate <b>bring up</b> at this week’s meeting?</p>
+
+    <p class="ideas">Dining hours? Parking? Club funding? Anything goes.</p>
+
+    <div class="cue"><span>Reply to<br>this story</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4.5 13.5 12 21l7.5-7.5"/></svg>
+    </div>
+
+    <div class="foot"><span>@wabashsenate</span><span class="tag">Wabash College</span></div>
+  </div>
+</body>
+</html>
