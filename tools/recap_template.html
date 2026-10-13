@@ -77,6 +77,7 @@
       <div class="content">
         <span class="label">${esc(s.label)}</span>
         <h2>${esc(s.title)}</h2>
+        ${s.body ? `<p>${esc(s.body)}</p>` : ""}
       </div>
       <div class="foot"><span class="handle">@wabashsenate</span><span class="hint">${esc(s.date)}</span></div>`;
   } else {
