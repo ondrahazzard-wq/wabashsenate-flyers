@@ -1,0 +1,13 @@
+{
+  "range": "Week of October 12 – 18, 2026",
+  "results": [
+    {"sport": "Cross Country", "date": "Fri, Oct 16", "opponent": "JennaStrong Fall Classic", "site": "Away", "place": "5th", "of": "of 18 teams"},
+    {"sport": "Football", "date": "Sat, Oct 17", "prefix": "at", "opponent": "John Carroll", "site": "Away", "outcome": "L", "score": "17–24"},
+    {"sport": "Soccer", "date": "Sat, Oct 17", "prefix": "vs.", "opponent": "Wooster", "site": "Home", "outcome": "L", "score": "1–3"},
+    {"sport": "Swimming", "date": "Sat, Oct 17", "opponent": "Indiana D3 Invitational", "site": "Away", "place": "2nd", "of": "of 5 teams"}
+  ],
+  "records": [
+    {"sport": "Football", "record": "4–2", "detail": "3–2 NCAC"},
+    {"sport": "Soccer", "record": "10–5–1", "detail": "1–3 NCAC"}
+  ]
+}
