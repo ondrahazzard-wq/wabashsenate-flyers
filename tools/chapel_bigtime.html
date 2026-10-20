@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Chapel Talk story, design "Big Time". Filled by render_chapel.py (window.fill(data)). -->
+<style>
+  :root {
+    --scarlet: #B8101F;
+    --scarlet-deep: #7E0A14;
+    --cream: #F6EFE3;
+    --ink: #1A0B0C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(1200px 900px at 90% 6%, #D11A2A 0%, rgba(209,26,42,0) 60%),
+      radial-gradient(1100px 1000px at 0% 100%, var(--scarlet-deep) 0%, rgba(126,10,20,0) 65%),
+      var(--scarlet);
+    color: var(--cream);
+    font-family: "Inter Display", "Inter", sans-serif;
+    position: relative;
+  }
+  .wrap { position: absolute; left: 80px; right: 80px; top: 230px; bottom: 270px;
+          display: flex; flex-direction: column; }
+
+  .kicker { display: flex; align-items: center; gap: 22px;
+            font-weight: 600; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase;
+            color: rgba(246,239,227,0.85); }
+  .kicker .rule { flex: 1; height: 2px; background: rgba(246,239,227,0.45); }
+  .kicker .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--cream); }
+
+  .day { margin-top: 44px; font-weight: 800; font-size: 76px; line-height: 0.95;
+         letter-spacing: -0.01em; text-transform: uppercase; }
+  .clock { display: flex; align-items: flex-start; margin-left: -10px; margin-top: 4px; }
+  .clock .hm { font-weight: 900; font-size: 320px; line-height: 0.86; letter-spacing: -0.035em; }
+  .clock .ap { margin-left: 18px; margin-top: 28px; font-weight: 900; font-size: 92px; line-height: 0.9;
+               letter-spacing: -0.03em; color: var(--ink); }
+  .where { margin-top: 26px; font-weight: 600; font-size: 34px; letter-spacing: 0.04em;
+           color: rgba(246,239,227,0.85); }
+
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center;
+          border-top: 3px solid var(--cream); margin-top: 54px; padding-top: 50px; }
+  .label { font-weight: 700; font-size: 26px; letter-spacing: 0.22em; text-transform: uppercase;
+           color: rgba(246,239,227,0.7); }
+  .title { margin-top: 14px; font-family: "Lora", serif; font-weight: 700; font-size: 96px;
+           line-height: 1.0; letter-spacing: -0.015em; }
+  .subtitle { margin-top: 20px; font-family: "Lora", serif; font-size: 46px; line-height: 1.18;
+              color: rgba(246,239,227,0.92); }
+  .speaker-block { margin-top: 46px; display: flex; align-items: center; gap: 28px; }
+  .speaker-block .chip { flex: none; background: var(--cream); color: var(--scarlet);
+           font-weight: 800; font-size: 26px; letter-spacing: 0.2em; text-transform: uppercase;
+           padding: 14px 20px; border-radius: 6px; }
+  .speaker { font-weight: 800; font-size: 58px; line-height: 1.05; letter-spacing: -0.02em; }
+  .role { margin-top: 12px; font-size: 32px; line-height: 1.3; color: rgba(246,239,227,0.8); }
+  .insight { margin-top: 40px; background: rgba(26,11,12,0.22); border-radius: 22px;
+             padding: 34px 38px; font-weight: 500; font-size: 38px; line-height: 1.3; }
+  [data-empty] { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="kicker"><span class="dot"></span><span>Chapel Talk</span><span class="rule"></span></div>
+    <div class="day" id="day"></div>
+    <div class="clock"><span class="hm" id="hm"></span><span class="ap" id="ap"></span></div>
+    <div class="where" id="place"></div>
+
+    <div class="main">
+      <div class="label">This week's talk</div>
+      <div class="title" id="title"></div>
+      <div class="subtitle" id="subtitle"></div>
+      <div class="speaker-block"><span class="chip">Speaker</span><span class="speaker" id="speaker"></span></div>
+      <div class="role" id="role"></div>
+      <div class="insight" id="insight"></div>
+    </div>
+  </div>
+<script>
+window.fill = function (d) {
+  const set = (id, v) => { const el = document.getElementById(id);
+    if (v) { el.textContent = v; el.removeAttribute('data-empty'); } else el.setAttribute('data-empty', ''); };
+  // d.time like "11:15 AM"; d.date like "Thu Oct 22"; d.day_long like "Thursday, Oct 22"
+  const m = (d.time || '').match(/^\s*([\d:]+)\s*([AaPp]\.?[Mm]\.?)?/);
+  set('hm', m ? m[1] : d.time); set('ap', m && m[2] ? m[2].replace(/\./g, '').toUpperCase() : '');
+  set('day', d.day_long || d.date);
+  set('place', d.place || 'Pioneer Chapel · All are welcome');
+  set('title', d.title); set('subtitle', d.subtitle); set('speaker', d.speaker);
+  set('role', d.role); set('insight', d.insight);
+  const main = document.querySelector('.main');
+  const steps = [['title', 96, 60], ['subtitle', 46, 36], ['insight', 38, 30], ['speaker', 58, 44]];
+  let guard = 0;
+  while (main.scrollHeight > main.clientHeight && guard++ < 200) {
+    let changed = false;
+    for (const [id, , min] of steps) {
+      const el = document.getElementById(id);
+      const fs = parseFloat(getComputedStyle(el).fontSize);
+      if (fs > min) { el.style.fontSize = (fs - 2) + 'px'; changed = true; break; }
+    }
+    if (!changed) break;
+  }
+  return main.scrollHeight <= main.clientHeight;
+};
+</script>
+</body>
+</html>

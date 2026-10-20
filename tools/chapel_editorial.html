@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Chapel Talk story, design "Editorial". Filled by render_chapel.py (window.fill(data)). -->
+<style>
+  :root {
+    --paper: #F3EEE6;
+    --ink: #1B1A19;
+    --muted: #6B6560;
+    --scarlet: #A8152A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", sans-serif;
+    position: relative;
+  }
+  .wrap { position: absolute; left: 96px; right: 96px; top: 260px; bottom: 270px;
+          display: flex; flex-direction: column; }
+
+  .mast { display: flex; justify-content: space-between; align-items: baseline;
+          padding-bottom: 26px; border-bottom: 4px solid var(--ink);
+          font-weight: 700; font-size: 32px; letter-spacing: 0.24em; text-transform: uppercase; }
+  .mast .wk { color: var(--scarlet); }
+  .dek { margin-top: 30px; font-family: "Lora", serif; font-style: italic; font-size: 40px; color: var(--ink); }
+
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .title { font-family: "Lora", serif; font-weight: 700; font-size: 132px; line-height: 0.98;
+           letter-spacing: -0.02em; }
+  .subtitle { margin-top: 28px; font-family: "Lora", serif; font-size: 54px; line-height: 1.18; }
+  .bar { margin-top: 48px; width: 150px; height: 12px; background: var(--scarlet); }
+  .label { font-weight: 700; font-size: 28px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
+  .speaker-label { margin-top: 44px; }
+  .speaker { margin-top: 10px; font-family: "Lora", serif; font-size: 70px; line-height: 1.08; }
+  .role { margin-top: 10px; font-size: 32px; line-height: 1.3; color: var(--muted); }
+  .insight { margin-top: 46px; padding-left: 30px; border-left: 4px solid var(--scarlet);
+             font-family: "Lora", serif; font-style: italic; font-size: 40px; line-height: 1.32; }
+
+  .info { display: flex; border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); }
+  .info > div { flex: 1; padding: 34px 0 34px; }
+  .info > div + div { border-left: 4px solid var(--ink); padding-left: 42px; }
+  .info .v { margin-top: 10px; font-weight: 800; font-size: 58px; letter-spacing: -0.01em; }
+  .info .time .v { color: var(--scarlet); }
+  .place { margin-top: 24px; font-weight: 600; font-size: 30px; letter-spacing: 0.04em; color: var(--muted); }
+  [data-empty] { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="mast"><span>Chapel Talk</span><span class="wk">This Thursday</span></div>
+    <div class="dek">This week in Pioneer Chapel</div>
+
+    <div class="main">
+      <div class="title" id="title"></div>
+      <div class="subtitle" id="subtitle"></div>
+      <div class="bar"></div>
+      <div class="label speaker-label">Speaker</div>
+      <div class="speaker" id="speaker"></div>
+      <div class="role" id="role"></div>
+      <div class="insight" id="insight"></div>
+    </div>
+
+    <div class="info">
+      <div class="when"><div class="label">When</div><div class="v" id="date"></div></div>
+      <div class="time"><div class="label">Time</div><div class="v" id="time"></div></div>
+    </div>
+    <div class="place" id="place"></div>
+  </div>
+<script>
+window.fill = function (d) {
+  const set = (id, v) => { const el = document.getElementById(id);
+    if (v) { el.textContent = v; el.removeAttribute('data-empty'); } else el.setAttribute('data-empty', ''); };
+  set('title', d.title); set('subtitle', d.subtitle); set('speaker', d.speaker);
+  set('role', d.role); set('insight', d.insight); set('date', d.date); set('time', d.time);
+  set('place', d.place || 'Pioneer Chapel · All are welcome');
+  // Shrink type until the middle block fits.
+  const main = document.querySelector('.main');
+  const steps = [['title', 132, 76], ['subtitle', 54, 40], ['insight', 40, 32], ['speaker', 70, 52]];
+  let guard = 0;
+  while (main.scrollHeight > main.clientHeight && guard++ < 200) {
+    let changed = false;
+    for (const [id, , min] of steps) {
+      const el = document.getElementById(id);
+      const fs = parseFloat(getComputedStyle(el).fontSize);
+      if (fs > min) { el.style.fontSize = (fs - 2) + 'px'; changed = true; break; }
+    }
+    if (!changed) break;
+  }
+  return main.scrollHeight <= main.clientHeight;
+};
+</script>
+</body>
+</html>
