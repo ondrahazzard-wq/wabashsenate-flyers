@@ -27,7 +27,7 @@
   .mast .wk { color: var(--scarlet); }
   .dek { margin-top: 30px; font-family: "Lora", serif; font-style: italic; font-size: 40px; color: var(--ink); }
 
-  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .main { flex: 1; min-height: 0; padding: 50px 0 56px; display: flex; flex-direction: column; justify-content: center; }
   .title { font-family: "Lora", serif; font-weight: 700; font-size: 132px; line-height: 0.98;
            letter-spacing: -0.02em; }
   .subtitle { margin-top: 28px; font-family: "Lora", serif; font-size: 54px; line-height: 1.18; }
@@ -45,6 +45,7 @@
   .info .v { margin-top: 10px; font-weight: 800; font-size: 58px; letter-spacing: -0.01em; }
   .info .time .v { color: var(--scarlet); }
   .place { margin-top: 24px; font-weight: 600; font-size: 30px; letter-spacing: 0.04em; color: var(--muted); }
+  .main > * { flex-shrink: 0; }
   [data-empty] { display: none !important; }
 </style>
 </head>
@@ -79,8 +80,16 @@ window.fill = function (d) {
   // Shrink type until the middle block fits.
   const main = document.querySelector('.main');
   const steps = [['title', 132, 76], ['subtitle', 54, 40], ['insight', 40, 32], ['speaker', 70, 52]];
+  const over = () => {
+    const kids = [...main.children].filter(e => e.offsetParent !== null);
+    const cs = getComputedStyle(main);
+    const avail = main.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const top = kids[0].getBoundingClientRect().top - parseFloat(getComputedStyle(kids[0]).marginTop);
+    const bottom = kids[kids.length - 1].getBoundingClientRect().bottom;
+    return bottom - top > avail + 1;
+  };
   let guard = 0;
-  while (main.scrollHeight > main.clientHeight && guard++ < 200) {
+  while (over() && guard++ < 200) {
     let changed = false;
     for (const [id, , min] of steps) {
       const el = document.getElementById(id);
@@ -89,7 +98,7 @@ window.fill = function (d) {
     }
     if (!changed) break;
   }
-  return main.scrollHeight <= main.clientHeight;
+  return !over();
 };
 </script>
 </body>
