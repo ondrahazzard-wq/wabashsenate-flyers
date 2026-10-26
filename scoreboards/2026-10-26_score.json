@@ -1,0 +1,17 @@
+{
+  "range": "Week of October 19 – 25, 2026",
+  "results": [
+    {"sport": "Golf", "date": "Oct 18–20", "opponent": "Golfweek October Classic", "site": "Away", "place": "16th", "of": "of 25 teams"},
+    {"sport": "Soccer", "date": "Wed, Oct 21", "prefix": "at", "opponent": "DePauw", "site": "Away", "outcome": "L", "score": "0–5"},
+    {"sport": "Swimming", "date": "Fri, Oct 23", "prefix": "at", "opponent": "Rose-Hulman", "site": "Away", "outcome": "L", "score": "144–156"},
+    {"sport": "Football", "date": "Sat, Oct 24", "prefix": "vs.", "opponent": "No. 8 WashU", "site": "Home", "outcome": "L", "score": "17–27"},
+    {"sport": "Soccer", "date": "Sat, Oct 24", "prefix": "vs.", "opponent": "Wittenberg", "site": "Home", "outcome": "L", "score": "0–1"},
+    {"sport": "Swimming", "date": "Sat, Oct 24", "prefix": "vs.", "opponent": "Davenport", "site": "Home", "outcome": "L", "score": "118–182"},
+    {"sport": "Swimming", "date": "Sat, Oct 24", "prefix": "vs.", "opponent": "Lewis", "site": "Home", "outcome": "L", "score": "109–185"}
+  ],
+  "records": [
+    {"sport": "Football", "record": "4–3", "detail": "3–3 NCAC"},
+    {"sport": "Soccer", "record": "10–7–1", "detail": "1–5 NCAC"},
+    {"sport": "Swimming", "record": "0–3", "detail": "dual meets"}
+  ]
+}

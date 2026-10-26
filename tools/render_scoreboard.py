@@ -14,7 +14,7 @@ score.json = {
   "note": optional footnote line
 }
 
-Tries the normal layout, then a compact one, then splits results across
+Tries the normal layout, then compact, then dense (one-line title), then splits results across
 several 1080x1350 pages (season records go on the last page). Prints the PNG paths.
 """
 import json, sys, pathlib
@@ -43,8 +43,8 @@ def fits(browser, payload):
 
 
 def plan(browser, data):
-    for compact in (False, True):
-        p = dict(data, compact=compact)
+    for mode in ({}, {"compact": True}, {"dense": True}):
+        p = dict(data, **mode)
         if fits(browser, p):
             return [p]
     # split results across pages, compact layout, records only on the last page
